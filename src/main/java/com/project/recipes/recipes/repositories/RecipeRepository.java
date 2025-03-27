@@ -10,4 +10,5 @@ import java.util.List;
 public interface RecipeRepository extends JpaRepository<RecipeModel, Integer> {
     List<RecipeModel> findAllByIsDeletedFalse();
     RecipeModel findByIdAndIsDeletedFalse(int id);
+    List<RecipeModel> findAllByTitle(String title);
 }
