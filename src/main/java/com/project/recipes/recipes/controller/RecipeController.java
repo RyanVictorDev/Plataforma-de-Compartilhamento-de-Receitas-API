@@ -4,16 +4,14 @@ import com.project.recipes.recipes.DTOs.CreateRecipeRequestDTO;
 import com.project.recipes.recipes.DTOs.RecipeResponseDTO;
 import com.project.recipes.recipes.DTOs.UpdateRecipeRequestDTO;
 import com.project.recipes.recipes.mappers.RecipeMapper;
-import com.project.recipes.recipes.repositories.RecipeRepository;
 import com.project.recipes.recipes.services.RecipeServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 public class RecipeController {
     @Autowired
     private RecipeMapper recipeMapper;
