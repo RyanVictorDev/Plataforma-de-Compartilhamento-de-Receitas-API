@@ -24,12 +24,12 @@ public class FavoriteController {
 
     @GetMapping("/favorite/user/{id}")
     public ResponseEntity<Object> getAllByUser(@PathVariable(value = "id") int id){
-        return ResponseEntity.status(HttpStatus.OK).body(favoriteServices.getAllByUser(id));
+        return ResponseEntity.status(HttpStatus.OK).body(favoriteMapper.toFavoriteResponseList(favoriteServices.getAllByUser(id)));
     }
 
     @GetMapping("/favorite/recipe/{id}")
     public ResponseEntity<Object> getAllByRecipe(@PathVariable(value = "id") int id){
-        return ResponseEntity.status(HttpStatus.OK).body(favoriteServices.getAllByRecipe(id));
+        return ResponseEntity.status(HttpStatus.OK).body(favoriteMapper.toFavoriteResponseList(favoriteServices.getAllByRecipe(id)));
     }
 
     @DeleteMapping("/favorite/{id}")
