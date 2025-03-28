@@ -31,15 +31,20 @@ public class RecipeModel {
     @JoinColumn(name = "userId")
     private UserModel user;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
+    private RecipeTagEnum tag;
+
     @Column(nullable = false)
     private boolean isDeleted;
 
-    public RecipeModel(String title, String description, String ingredients, String preparation, UserModel user){
+    public RecipeModel(String title, String description, String ingredients, String preparation, UserModel user, RecipeTagEnum tag){
         this.title = title;
         this.description = description;
         this.ingredients = ingredients;
         this.preparation = preparation;
         this.user = user;
+        this.tag = tag;
         this.isDeleted = false;
     }
 

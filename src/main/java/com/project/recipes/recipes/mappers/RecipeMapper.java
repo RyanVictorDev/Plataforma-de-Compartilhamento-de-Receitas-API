@@ -21,6 +21,7 @@ public class RecipeMapper {
                 .ingredients(model.getIngredients())
                 .preparation(model.getPreparation())
                 .user(model.getUser())
+                .tag(model.getTag())
                 .build();
     }
 }

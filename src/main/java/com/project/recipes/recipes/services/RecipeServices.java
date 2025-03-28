@@ -4,6 +4,7 @@ import com.project.recipes.recipes.DTOs.CreateRecipeRequestDTO;
 import com.project.recipes.recipes.DTOs.UpdateRecipeRequestDTO;
 import com.project.recipes.recipes.models.RecipeModel;
 import com.project.recipes.recipes.repositories.RecipeRepository;
+import com.project.recipes.recipes.validations.RecipesValidations;
 import com.project.recipes.users.models.UserModel;
 import com.project.recipes.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,15 @@ public class RecipeServices {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RecipesValidations recipesValidations;
+
     public ResponseEntity<Void> create(CreateRecipeRequestDTO data){
 
+        recipesValidations.create(data);
+
         Optional<UserModel> user = userRepository.findById(data.userId());
-        RecipeModel recipe = new RecipeModel(data.title(), data.description(), data.ingredients(), data.preparation(), user.get());
+        RecipeModel recipe = new RecipeModel(data.title(), data.description(), data.ingredients(), data.preparation(), user.get(), data.tag());
 
         recipeRepository.save(recipe);
 
@@ -44,12 +50,15 @@ public class RecipeServices {
         Optional<RecipeModel> response = recipeRepository.findById(id);
         if (response.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recipe not found");
 
+        recipesValidations.update(id, data);
+
         RecipeModel recipe = response.get();
 
         recipe.setTitle(data.title());
         recipe.setDescription(data.description());
         recipe.setIngredients(data.ingredients());
         recipe.setPreparation(data.preparation());
+        recipe.setTag(data.tag());
 
         recipeRepository.save(recipe);
 
