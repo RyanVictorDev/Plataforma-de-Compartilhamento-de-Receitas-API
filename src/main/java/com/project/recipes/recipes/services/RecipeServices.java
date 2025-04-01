@@ -8,6 +8,7 @@ import com.project.recipes.recipes.validations.RecipesValidations;
 import com.project.recipes.users.models.UserModel;
 import com.project.recipes.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class RecipeServices {
     }
 
     public List<RecipeModel> getAll(){
-        return recipeRepository.findAllByIsDeletedFalse();
+        return recipeRepository.findAllByIsDeletedFalse(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Optional<RecipeModel> getById(int id){

@@ -36,6 +36,6 @@ public class AuthenticationController {
 
         UserModel user = repository.findByEmail(data.email());
 
-        return ResponseEntity.ok(new LoginResponseDTO(token, user.getEmail()));
+        return ResponseEntity.ok(new LoginResponseDTO(token, user.getEmail(), user.getName(), user.getId()));
     }
 }
