@@ -25,8 +25,9 @@ public class RecipeController {
     }
 
     @GetMapping("/recipe")
-    public ResponseEntity<Object> getAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(recipeMapper.toRecipeResponseList(recipeServices.getAll()));
+    public ResponseEntity<Object> getAll(@RequestParam(required = false) Integer page){
+        if (page != null) return ResponseEntity.status(HttpStatus.OK).body(recipeServices.getAll("", page).map(recipeMapper::toRecipeResponse));
+        else return ResponseEntity.status(HttpStatus.OK).body(recipeMapper.toRecipeResponseList(recipeServices.getAllWithoutPagination()));
     }
 
     @GetMapping("/recipe/{id}")

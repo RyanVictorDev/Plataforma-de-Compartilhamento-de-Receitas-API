@@ -8,6 +8,9 @@ import com.project.recipes.recipes.validations.RecipesValidations;
 import com.project.recipes.users.models.UserModel;
 import com.project.recipes.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +42,14 @@ public class RecipeServices {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    public List<RecipeModel> getAll(){
+    public Page<RecipeModel> getAll(String search, int page){
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+
+        return recipeRepository.findAllByIsDeletedFalse(pageable);
+    }
+
+    public List<RecipeModel> getAllWithoutPagination(){
         return recipeRepository.findAllByIsDeletedFalse(Sort.by(Sort.Direction.DESC, "id"));
     }
 
