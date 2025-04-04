@@ -3,6 +3,7 @@ package com.project.recipes.recipes.services;
 import com.project.recipes.recipes.DTOs.CreateRecipeRequestDTO;
 import com.project.recipes.recipes.DTOs.UpdateRecipeRequestDTO;
 import com.project.recipes.recipes.models.RecipeModel;
+import com.project.recipes.recipes.models.RecipeTagEnum;
 import com.project.recipes.recipes.repositories.RecipeRepository;
 import com.project.recipes.recipes.validations.RecipesValidations;
 import com.project.recipes.users.models.UserModel;
@@ -42,15 +43,19 @@ public class RecipeServices {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    public Page<RecipeModel> getAll(String search, int page){
+    public Page<RecipeModel> getAll(String search, int page, RecipeTagEnum tag){
         int size = 10;
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
-
-        return recipeRepository.findAllByIsDeletedFalse(pageable);
+        if (tag != null) return recipeRepository.findAllByIsDeletedFalseAndTag(pageable, tag);
+        else return recipeRepository.findAllByIsDeletedFalse(pageable);
     }
 
     public List<RecipeModel> getAllWithoutPagination(){
         return recipeRepository.findAllByIsDeletedFalse(Sort.by(Sort.Direction.DESC, "id"));
+    }
+
+    public List<RecipeModel> getAllByUser(int id){
+        return recipeRepository.findAllByIsDeletedFalseAndUserId(id, Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Optional<RecipeModel> getById(int id){

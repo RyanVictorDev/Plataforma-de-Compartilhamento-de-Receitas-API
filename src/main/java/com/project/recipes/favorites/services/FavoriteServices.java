@@ -8,6 +8,7 @@ import com.project.recipes.recipes.repositories.RecipeRepository;
 import com.project.recipes.users.models.UserModel;
 import com.project.recipes.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -42,11 +43,11 @@ public class FavoriteServices {
     }
 
     public List<FavoriteModel> getAllByUser(int id){
-        return favoriteRepository.findAllByUserId(id);
+        return favoriteRepository.findAllByUserId(id, Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public List<FavoriteModel> getAllByRecipe(int id){
-        return favoriteRepository.findAllByRecipeId(id);
+        return favoriteRepository.findAllByRecipeId(id, Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public ResponseEntity<Void> delete(int id){

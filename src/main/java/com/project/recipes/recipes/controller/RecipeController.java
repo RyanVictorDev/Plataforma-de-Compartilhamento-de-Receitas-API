@@ -4,6 +4,7 @@ import com.project.recipes.recipes.DTOs.CreateRecipeRequestDTO;
 import com.project.recipes.recipes.DTOs.RecipeResponseDTO;
 import com.project.recipes.recipes.DTOs.UpdateRecipeRequestDTO;
 import com.project.recipes.recipes.mappers.RecipeMapper;
+import com.project.recipes.recipes.models.RecipeTagEnum;
 import com.project.recipes.recipes.services.RecipeServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,14 @@ public class RecipeController {
     }
 
     @GetMapping("/recipe")
-    public ResponseEntity<Object> getAll(@RequestParam(required = false) Integer page){
-        if (page != null) return ResponseEntity.status(HttpStatus.OK).body(recipeServices.getAll("", page).map(recipeMapper::toRecipeResponse));
+    public ResponseEntity<Object> getAll(@RequestParam(required = false) Integer page, @RequestParam(required = false) RecipeTagEnum tag){
+        if (page != null) return ResponseEntity.status(HttpStatus.OK).body(recipeServices.getAll("", page, tag).map(recipeMapper::toRecipeResponse));
         else return ResponseEntity.status(HttpStatus.OK).body(recipeMapper.toRecipeResponseList(recipeServices.getAllWithoutPagination()));
+    }
+
+    @GetMapping("/recipe/user/{id}")
+    public ResponseEntity<Object> getAllByUserId(@PathVariable(value = "id") int id){
+        return ResponseEntity.status(HttpStatus.OK).body(recipeMapper.toRecipeResponseList(recipeServices.getAllByUser(id)));
     }
 
     @GetMapping("/recipe/{id}")
