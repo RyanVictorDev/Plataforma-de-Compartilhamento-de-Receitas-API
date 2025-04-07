@@ -26,8 +26,8 @@ public class RecipeController {
     }
 
     @GetMapping("/recipe")
-    public ResponseEntity<Object> getAll(@RequestParam(required = false) Integer page, @RequestParam(required = false) RecipeTagEnum tag){
-        if (page != null) return ResponseEntity.status(HttpStatus.OK).body(recipeServices.getAll("", page, tag).map(recipeMapper::toRecipeResponse));
+    public ResponseEntity<Object> getAll(@RequestParam(required = false) Integer page, @RequestParam(required = false) String search, @RequestParam(required = false) RecipeTagEnum tag){
+        if (page != null) return ResponseEntity.status(HttpStatus.OK).body(recipeServices.getAll(search, page, tag).map(recipeMapper::toRecipeResponse));
         else return ResponseEntity.status(HttpStatus.OK).body(recipeMapper.toRecipeResponseList(recipeServices.getAllWithoutPagination()));
     }
 

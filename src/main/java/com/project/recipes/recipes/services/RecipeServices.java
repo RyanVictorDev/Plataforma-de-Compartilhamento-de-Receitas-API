@@ -46,8 +46,18 @@ public class RecipeServices {
     public Page<RecipeModel> getAll(String search, int page, RecipeTagEnum tag){
         int size = 10;
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
-        if (tag != null) return recipeRepository.findAllByIsDeletedFalseAndTag(pageable, tag);
-        else return recipeRepository.findAllByIsDeletedFalse(pageable);
+
+        boolean hasSearch = search != null && !search.trim().isEmpty();
+        boolean hasTag = tag != null;
+
+        if (hasTag && hasSearch)
+            return recipeRepository.findAllBySearch(search, tag, pageable);
+        else if (hasTag)
+            return recipeRepository.findAllByIsDeletedFalseAndTag(tag, pageable);
+        else if (hasSearch)
+            return recipeRepository.searchWithoutTag(search, pageable);
+        else
+            return recipeRepository.findAllByIsDeletedFalse(pageable);
     }
 
     public List<RecipeModel> getAllWithoutPagination(){
