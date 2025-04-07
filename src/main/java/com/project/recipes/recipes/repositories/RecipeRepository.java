@@ -43,5 +43,5 @@ public interface RecipeRepository extends JpaRepository<RecipeModel, Integer> {
     List<RecipeModel> findAllByIsDeletedFalseAndUserId(int id, Sort sort);
     RecipeModel findByIdAndIsDeletedFalse(int id);
     List<RecipeModel> findAllByTitle(String title);
-    List<RecipeModel> findAllByUserId(int id);
+    List<RecipeModel> findAllByUserIdAndIsDeletedFalse(int id);
 }

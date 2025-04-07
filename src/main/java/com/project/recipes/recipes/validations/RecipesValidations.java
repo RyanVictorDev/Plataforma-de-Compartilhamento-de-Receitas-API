@@ -32,7 +32,7 @@ public class RecipesValidations {
     }
 
     private void validateRecipe(CreateRecipeRequestDTO data){
-        List<RecipeModel> recipes = recipeRepository.findAllByUserId(data.userId());
+        List<RecipeModel> recipes = recipeRepository.findAllByUserIdAndIsDeletedFalse(data.userId());
 
         for (RecipeModel recipe : recipes){
             if (recipe.getTitle().equals(data.title()) &&
@@ -46,7 +46,7 @@ public class RecipesValidations {
 
     private void validateRecipeUpdate(int id, UpdateRecipeRequestDTO data){
         RecipeModel recipeModel = recipeRepository.findById(id).get();
-        List<RecipeModel> recipes = recipeRepository.findAllByUserId(recipeModel.getUser().getId());
+        List<RecipeModel> recipes = recipeRepository.findAllByUserIdAndIsDeletedFalse(recipeModel.getUser().getId());
 
         for (RecipeModel recipe : recipes){
             if (recipe.getTitle().equals(data.title()) &&
