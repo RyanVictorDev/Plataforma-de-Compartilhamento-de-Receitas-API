@@ -44,4 +44,5 @@ public interface RecipeRepository extends JpaRepository<RecipeModel, Integer> {
     RecipeModel findByIdAndIsDeletedFalse(int id);
     List<RecipeModel> findAllByTitle(String title);
     List<RecipeModel> findAllByUserIdAndIsDeletedFalse(int id);
+    boolean existsByUserIdAndTitleAndDescriptionAndIngredientsAndPreparationAndTagAndIsDeletedFalse(int userId, String title, String description, String ingredients, String preparation, RecipeTagEnum tag);
 }

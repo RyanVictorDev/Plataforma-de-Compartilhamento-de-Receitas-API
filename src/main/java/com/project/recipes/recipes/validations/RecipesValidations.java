@@ -28,35 +28,30 @@ public class RecipesValidations {
     }
 
     public void update(int id, UpdateRecipeRequestDTO data){
-        validateRecipeUpdate(id, data);
+//        validateRecipeUpdate(id, data);
     }
 
     private void validateRecipe(CreateRecipeRequestDTO data){
-        List<RecipeModel> recipes = recipeRepository.findAllByUserIdAndIsDeletedFalse(data.userId());
+        boolean exists = recipeRepository.existsByUserIdAndTitleAndDescriptionAndIngredientsAndPreparationAndTagAndIsDeletedFalse(
+                data.userId(), data.title(), data.description(), data.ingredients(), data.preparation(), data.tag());
 
-        for (RecipeModel recipe : recipes){
-            if (recipe.getTitle().equals(data.title()) &&
-                    recipe.getDescription().equals(data.description()) &&
-                    recipe.getIngredients().equals(data.ingredients()) &&
-                    recipe.getTag().equals(data.tag()) &&
-                    recipe.getPreparation().equals(data.preparation())) {
-                throw new CustomValidationException("Receita já existente em seu perfil");
-            }
+        if (exists) {
+            throw new CustomValidationException("Receita já existente em seu perfil");
         }
     }
 
-    private void validateRecipeUpdate(int id, UpdateRecipeRequestDTO data){
-        RecipeModel recipeModel = recipeRepository.findById(id).get();
-        List<RecipeModel> recipes = recipeRepository.findAllByUserIdAndIsDeletedFalse(recipeModel.getUser().getId());
-
-        for (RecipeModel recipe : recipes){
-            if (recipe.getTitle().equals(data.title()) &&
-                    recipe.getDescription().equals(data.description()) &&
-                    recipe.getIngredients().equals(data.ingredients()) &&
-                    recipe.getTag().equals(data.tag()) &&
-                    recipe.getPreparation().equals(data.preparation())) {
-                throw new CustomValidationException("Receita já existente em seu perfil");
-            }
-        }
-    }
+//    private void validateRecipeUpdate(int id, UpdateRecipeRequestDTO data){
+//        RecipeModel recipeModel = recipeRepository.findById(id).get();
+//        List<RecipeModel> recipes = recipeRepository.findAllByUserIdAndIsDeletedFalse(recipeModel.getUser().getId());
+//
+//        for (RecipeModel recipe : recipes){
+//            if (recipe.getTitle().equals(data.title()) &&
+//                    recipe.getDescription().equals(data.description()) &&
+//                    recipe.getIngredients().equals(data.ingredients()) &&
+//                    recipe.getTag().equals(data.tag()) &&
+//                    recipe.getPreparation().equals(data.preparation())) {
+//                throw new CustomValidationException("Receita já existente em seu perfil");
+//            }
+//        }
+//    }
 }
