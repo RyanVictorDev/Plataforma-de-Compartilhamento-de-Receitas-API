@@ -17,11 +17,11 @@ public interface RecipeRepository extends JpaRepository<RecipeModel, Integer> {
     @Query("SELECT u FROM RecipeModel u " +
             "JOIN u.user s " +
             "WHERE (" +
-            "LOWER(REPLACE(u.title, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%')) " +
-            "OR LOWER(REPLACE(u.description, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%')) " +
-            "OR LOWER(REPLACE(u.ingredients, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%')) " +
-            "OR LOWER(REPLACE(u.preparation, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%')) " +
-            "OR LOWER(REPLACE(s.name, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%'))" +
+            "LOWER(u.title) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(u.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(u.ingredients) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(u.preparation) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(s.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))" +
             ") AND u.isDeleted = false AND u.tag = :tag")
     Page<RecipeModel> findAllBySearch(@Param("searchTerm") String searchTerm, RecipeTagEnum tag, Pageable pageable);
 
@@ -30,11 +30,11 @@ public interface RecipeRepository extends JpaRepository<RecipeModel, Integer> {
     @Query("SELECT u FROM RecipeModel u " +
             "JOIN u.user s " +
             "WHERE (" +
-            "LOWER(REPLACE(u.title, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%')) " +
-            "OR LOWER(REPLACE(u.description, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%')) " +
-            "OR LOWER(REPLACE(u.ingredients, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%')) " +
-            "OR LOWER(REPLACE(u.preparation, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%')) " +
-            "OR LOWER(REPLACE(s.name, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%'))" +
+            "LOWER(u.title) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(u.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(u.ingredients) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(u.preparation) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(s.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))" +
             ") AND u.isDeleted = false")
     Page<RecipeModel> searchWithoutTag(@Param("searchTerm") String searchTerm, Pageable pageable);
 
