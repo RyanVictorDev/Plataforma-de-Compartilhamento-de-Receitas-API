@@ -38,6 +38,7 @@ public class RecipesValidations {
             if (recipe.getTitle().equals(data.title()) &&
                     recipe.getDescription().equals(data.description()) &&
                     recipe.getIngredients().equals(data.ingredients()) &&
+                    recipe.getTag().equals(data.tag()) &&
                     recipe.getPreparation().equals(data.preparation())) {
                 throw new CustomValidationException("Receita já existente em seu perfil");
             }
@@ -52,6 +53,7 @@ public class RecipesValidations {
             if (recipe.getTitle().equals(data.title()) &&
                     recipe.getDescription().equals(data.description()) &&
                     recipe.getIngredients().equals(data.ingredients()) &&
+                    recipe.getTag().equals(data.tag()) &&
                     recipe.getPreparation().equals(data.preparation())) {
                 throw new CustomValidationException("Receita já existente em seu perfil");
             }
